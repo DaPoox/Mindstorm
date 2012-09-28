@@ -101,6 +101,7 @@ public class Mouvement {
 	
 		LCD.clear();
 
+		int nbPoint = 0;
 		t1 = System.currentTimeMillis();
 		while(!couleurFin.egale(cs.getColor())){
 			//Récupérer la luminance de la couleur captée
@@ -118,7 +119,16 @@ public class Mouvement {
 			if((t2-t1)>2000){
 				location = pp.getPose().getLocation();
 				//Afficher le type du deplacement
-				this.getMouvementType(location);
+				//this.getMouvementType(location);
+				nbPoint ++;
+				if(nbPoint == 3){
+					//On a 
+					System.out.println("Angle: "+pilot.getMovement().getAngleTurned()+" !");
+					pilot.stop();
+					Button.waitForAnyPress();
+					pilot.forward();
+					nbPoint = 0;
+				}
 				listPoints.add(location);
 				t1 = System.currentTimeMillis();
 			}
