@@ -1,6 +1,14 @@
-************** Robot mindstorm *********
+﻿************** Robot mindstorm *********
 	Kerris Abderrahmane
 	Tounsi Abdelkader
 *****************************************
 
 Ce fichier sera modifié tout au long du projet.
+
+1. Installation de l’environnement de travail (fait): 
+- Driver(NXT_USB_Drvier)
+- JDK et Eclipse
+- leJos (plugin Eclipse)
+2. Création du premier programme HelloWorld (fait, voir HelloWorld.java).
+3. Manipulation des capteurs et des moteurs (en cours…)
+ 
