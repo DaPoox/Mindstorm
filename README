@@ -10,5 +10,13 @@ Ce fichier sera modifié tout au long du projet.
 - JDK et Eclipse
 - leJos (plugin Eclipse)
 2. Création du premier programme HelloWorld (fait, voir HelloWorld.java).
-3. Manipulation des capteurs et des moteurs (en cours…)
+3. Manipulation du moteur :
+	- Faire tourner le moteur(dans les deux senses)
+	- Changer la vitesse du moteur
+	- Faire tourner le moteur selon la luminosité de l’entourage
+4. Utilisation du capteur
+	Ici, nous avions un souci puisque nous avons cru que c’était un capteur de couleur alors qu’en réalité c’est un capteur de lumière.
+-  Lire la valeur de la luminosité et l’afficher à l’écran
+- Faire tourner le moteur selon la luminosité de l’entourage.
+
  
