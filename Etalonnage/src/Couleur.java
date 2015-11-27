@@ -9,6 +9,8 @@ public class Couleur {
 	private int minB;
 	private int maxB;
 	
+	private boolean calibrated = false;
+	
 	//Constructeurs: 
 	public Couleur(){
 		this.minR = 5000;
@@ -49,7 +51,9 @@ public class Couleur {
 	public void setMaxB(int maxB) {
 		this.maxB = maxB;
 	}
-	
+	public void setCalibrated(boolean bool){
+		this.calibrated = bool;
+	}
 	//Getters: 
 	public int getMinR(){
 
@@ -72,11 +76,15 @@ public class Couleur {
 	public int getMaxB(){
 		return this.maxB;
 	}
-	
+	public boolean isCalibrated(){
+		return 	this.calibrated;
+	}
 	public String toString(){
-		return ""+this.minR+" - "+this.maxR+"\n"+
+		if(this.calibrated)
+			return ""+this.minR+" - "+this.maxR+"\n"+
 				this.minG+" - "+this.maxG+"\n"+
 				this.minB+" - "+this.maxB+"\n";
+		else return "Calibrated:"+this.calibrated;
 	}
 
 }

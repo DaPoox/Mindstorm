@@ -1,7 +1,9 @@
 import lejos.nxt.Button;
 import lejos.nxt.ColorSensor;
 import lejos.nxt.ColorSensor.Color;
+import lejos.util.TextMenu;
 import lejos.nxt.LCD;
+import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
 
 public class Capteur{
@@ -17,6 +19,12 @@ public class Capteur{
 	
 	public Capteur(SensorPort port) {
 		this.cs = new ColorSensor(port);
+		BLEU = new Couleur();
+		BLANC = new Couleur();
+		VERT = new Couleur();
+		JAUNE = new Couleur();
+		NOIR = new Couleur();
+		ROUGE = new Couleur();
 	}
 	
 	/*
@@ -26,88 +34,147 @@ public class Capteur{
 	 */
 	
 	public boolean Calibrate(){
-	//Noir:
-		//Afficher le msg et Attendre l'utilisateur 
-		afficherMsgCalibrate();
-		LCD.drawString("sur le noir", 0, 2);
-		while(Button.ENTER.isUp()){
-			if(Button.ESCAPE.isDown()){
-				return false;
-			}
-		}
-		LCD.clear();
-		NOIR = new Couleur();
-		NOIR = Calibrate(NOIR);
-			
-	//Bleu:
-		//Afficher le msg et Attendre l'utilisateur 
-		BLEU = new Couleur();
-		afficherMsgCalibrate();
-		LCD.drawString("sur le bleu", 0, 2);
-		while(Button.ENTER.isUp()){
-			if(Button.ESCAPE.isDown()){
-				return false;
-			}
-		}
-		BLEU = Calibrate(BLEU);
-		LCD.clear();
+		String[] tabOption= {"Noir", "Bleu", "Vert", "Jaune", "Rouge", "Blanc", "Fin"};
+		TextMenu textmenu = new TextMenu(tabOption);
+		textmenu.setTitle("Choisir la couleur:");
+		
+		int selected;
+		boolean finChoix = false;
+		while(!finChoix){
+			selected = textmenu.select();
+			switch(selected){
+			//Noir: 
+			case 0:{
+				//Noir:
+				//Afficher le msg et Attendre l'utilisateur 
+				afficherMsgCalibrate();
+				LCD.drawString("sur le noir", 0, 2);
+				Button.waitForAnyPress();
+				while(Button.ENTER.isUp()){
+					if(Button.ESCAPE.isDown()){
+						break;
+					}
+				}
+				LCD.clear();
+				NOIR = new Couleur();
+				NOIR = Calibrate(NOIR);
+				NOIR.setCalibrated(true);
+				tabOption[0]+= "--- OK";
+				textmenu.setItems(tabOption);
+				LCD.clear();
+			}break;
+			//Bleu: 
+			case 1:{
+				LCD.clear();
+				//Bleu:
+				//Afficher le msg et Attendre l'utilisateur 
+				BLEU = new Couleur();
+				afficherMsgCalibrate();
+				LCD.drawString("sur le bleu", 0, 2);
+				Button.waitForAnyPress();
+				while(Button.ENTER.isUp()){
+					if(Button.ESCAPE.isDown()){
+						break;
+					}
+				}
+				BLEU = Calibrate(BLEU);
+				BLEU.setCalibrated(true);
+				tabOption[1]+= "--- OK";
+				textmenu.setItems(tabOption);
+				LCD.clear();
+			}break;
+			//Vert: 
+			case 2:{
+				//Vert:
+				//Afficher le msg et Attendre l'utilisateur 
+				VERT = new Couleur();
+				afficherMsgCalibrate();
+				LCD.drawString("sur le vert", 0, 2);
+				Button.waitForAnyPress();
 
-	//Vert:
-		//Afficher le msg et Attendre l'utilisateur 
-		VERT = new Couleur();
-		afficherMsgCalibrate();
-		LCD.drawString("sur le vert", 0, 2);
-		while(Button.ENTER.isUp()){
-			if(Button.ESCAPE.isDown()){
-				return false;
-			}
+				while(Button.ENTER.isUp()){
+					if(Button.ESCAPE.isDown()){
+						break;
+					}
+				}
+				VERT = Calibrate(VERT);
+				VERT.setCalibrated(true);
+				tabOption[2]+= "--- OK";
+				textmenu.setItems(tabOption);
+				LCD.clear();
+			}break;
+			//Jaune: 
+			case 3:{
+				//Jaune:
+				//Afficher le msg et Attendre l'utilisateur 
+				JAUNE = new Couleur();
+				afficherMsgCalibrate();
+				LCD.drawString("sur le Jaune", 0, 2);
+				Button.waitForAnyPress();
+
+				while(Button.ENTER.isUp()){
+					if(Button.ESCAPE.isDown()){
+						break;
+					}
+				}
+				JAUNE = Calibrate(JAUNE);
+				JAUNE.setCalibrated(true);
+				tabOption[3]+= "--- OK";
+				textmenu.setItems(tabOption);
+				LCD.clear();
+			}break;
+			//Rouge: 
+			case 4:{
+				//Rouge:
+				//Afficher le msg et Attendre l'utilisateur 
+				ROUGE = new Couleur();
+				afficherMsgCalibrate();
+				LCD.drawString("sur le Rouge", 0, 2);
+				Button.waitForAnyPress();
+
+				while(Button.ENTER.isUp()){
+					if(Button.ESCAPE.isDown()){
+						break;
+					}
+				}
+				ROUGE = Calibrate(ROUGE);
+				ROUGE.setCalibrated(true);
+				tabOption[4]+= "--- OK";
+				textmenu.setItems(tabOption);
+				LCD.clear();
+			}break;
+			//Blanc: 
+			case 5:{
+				//Blanc:
+				//Afficher le msg et Attendre l'utilisateur 
+				BLANC = new Couleur();
+				afficherMsgCalibrate();
+				LCD.drawString("sur le Blanc", 0, 2);
+				Button.waitForAnyPress();
+
+				while(Button.ENTER.isUp()){
+					if(Button.ESCAPE.isDown()){
+						break;
+					}
+				}
+				BLANC = Calibrate(BLANC);
+				BLANC.setCalibrated(true);
+				tabOption[5]+= "--- OK";
+				textmenu.setItems(tabOption);
+				LCD.clear();		
+			}break;
+			//Fin: 
+			case 6:{
+				finChoix = true;
+			}break;
 		}
-		VERT = Calibrate(VERT);
-		LCD.clear();
-			
-	//Jaune:
-		//Afficher le msg et Attendre l'utilisateur 
-		JAUNE = new Couleur();
-		afficherMsgCalibrate();
-		LCD.drawString("sur le Jaune", 0, 2);
-		while(Button.ENTER.isUp()){
-			if(Button.ESCAPE.isDown()){
-				return false;
-			}
+			//Button.waitForAnyPress();
 		}
-		JAUNE = Calibrate(JAUNE);
-		LCD.clear();
-		
-	//Rouge:
-		//Afficher le msg et Attendre l'utilisateur 
-		ROUGE = new Couleur();
-		afficherMsgCalibrate();
-		LCD.drawString("sur le Rouge", 0, 2);
-		while(Button.ENTER.isUp()){
-			if(Button.ESCAPE.isDown()){
-				return false;
-			}
-		}
-		ROUGE = Calibrate(ROUGE);
-		LCD.clear();
-		
-	//Blanc:
-		//Afficher le msg et Attendre l'utilisateur 
-		BLANC = new Couleur();
-		afficherMsgCalibrate();
-		LCD.drawString("sur le Blanc", 0, 2);
-		while(Button.ENTER.isUp()){
-			if(Button.ESCAPE.isDown()){
-				return false;
-			}
-		}
-		BLANC = Calibrate(BLANC);
-		LCD.clear();		
-	
 		return true;
 	}
 	
 	public void afficherMsgCalibrate(){
+		LCD.clear();
 		LCD.drawString("Placer Ccapteur", 0, 1);
 		LCD.drawString("Entrer: Continuer", 0, 3);
 		LCD.drawString("Esc: Quitter", 0, 4);
@@ -121,11 +188,16 @@ public class Capteur{
 		
 		//Executer la boucle pendant 5 secondes:
 		long time = System.currentTimeMillis();
-		while(System.currentTimeMillis() < time+5000){
+	//	while(System.currentTimeMillis() < time+5000){
+		int i=0;
+		while(i != 5){
 			color = cs.getColor();
+			LCD.clear();
 			LCD.drawString("RGB: ", 0, 1);
 			LCD.drawString(color.getRed()+" - "+color.getGreen()+" - "+color.getBlue(), 0, 2);
 			clr = UpdateColor(clr, color);
+			Button.waitForAnyPress();
+			i++;
 		}	
 		return clr;
 	}
