@@ -1,3 +1,11 @@
+
+Ven 15 jan 2016 15:57:43 CET
+FAIT
+	- résoud les problèmes du challenge de février
+A FAIRE
+	- essayer de trouver une stratégie avec un contrôle de la dérivée, c'est-à-dire ne pas changer brutalement la vitesse de rotation mais procéder avec une variation continue.
+	- attention à conserver le programme qui fonctionne pour le challenge de janvier. Il fatu créer un autre programme pour tester...
+
 Ven  4 déc 2015 16:41:35 CET
 FAIT
 	- video etalonnage
