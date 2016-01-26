@@ -39,9 +39,7 @@ public class Fichier {
 	            	reader.readLine();
 	            }
 	            String line = reader.readLine();
-	    		System.out.println("LIne: "+line);
 	    		in.close();
-	    		Button.waitForAnyPress();
 		    	Couleur couleur = this.StringToCouleur(line);	 		    	
 	            return couleur;
 	    	} catch (IOException ioe) {
