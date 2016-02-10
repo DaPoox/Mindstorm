@@ -9,6 +9,7 @@ import lejos.nxt.SensorPort;
 public class main {
 	
 	static Capteur cs;
+	
 	static Fichier file;
 
 	public static void main(String[] args) {
@@ -17,7 +18,7 @@ public class main {
 		cs = new Capteur(SensorPort.S1);
 		cs.start();
 
-		SuiveurLigne sv = new SuiveurLigne(cs, file);
+		SuiveurLigne sv = new SuiveurLigne(cs,file);
 		Etalonnage et = new Etalonnage(cs, file);
 		Detecter dt = new Detecter(cs, file);
 		
@@ -25,7 +26,7 @@ public class main {
 		 * Choix, etalonnage, demarrer...
 		 */
 		
-		String[] tabOption= {"Etalonnage", "Suivre ligne", "Detecter", "Quitter"};
+		String[] tabOption= {"Etalonnage", "SuivLigne(A/R)", "SuivLigne(Aller))", "Detecter", "Quitter"};
 		TextMenu textmenu = new TextMenu(tabOption);
 		textmenu.setTitle("Que faire?");
 		LCD.drawString("Suiveur de ligne", 0, 4);
@@ -38,11 +39,13 @@ public class main {
 			switch(selected){
 				case 0: Etalonnage();
 				break;
-				case 1: sv.SuivreLigne();
+				case 1: sv.SuivreLigneAllerRetour();
 				break;
-				case 2: dt.detecter();
+				case 2: sv.SuivreLigneAller();
 				break;
-				case 3: return;
+				case 3: dt.detecter();
+				break;
+				case 4: return;
 			}
 		}
 	}

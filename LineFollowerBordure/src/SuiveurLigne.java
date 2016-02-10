@@ -6,6 +6,7 @@ import lejos.util.TextMenu;
 
 public class SuiveurLigne {
 	Capteur cs;
+	
 	Fichier file;
 	String[] tabOption= new String[6];
 	Couleur[] couleurs = new Couleur[6];
@@ -13,6 +14,7 @@ public class SuiveurLigne {
 	Couleur couleurDebut;
 	Couleur couleurFin;
 	Couleur couleurLigne;
+	Couleur couleurBlanc;
 	
 	public SuiveurLigne(Capteur cs, Fichier file){
 		this.cs = cs;
@@ -72,12 +74,14 @@ public class SuiveurLigne {
 		textmenu.setTitle("Couleur ligne");
 		return textmenu.select();
 	}
+	
 	public int menuCouleurDebut(){
 		LCD.clear();
 		TextMenu textmenu = new TextMenu(tabOption);
 		textmenu.setTitle("Couleur debut");
 		return textmenu.select();
 	}
+	
 	public int menuCouleurFin(){
 		LCD.clear();
 		TextMenu textmenu = new TextMenu(tabOption);
@@ -85,7 +89,7 @@ public class SuiveurLigne {
 		
 		return textmenu.select();
 	}
-	
+
 	public void initCouleur(){
 		int choix = 0;
 		choix = menuCouleurDebut();
@@ -105,7 +109,7 @@ public class SuiveurLigne {
 	}
 	
 	
-	public boolean SuivreLigne(){
+	public boolean SuivreLigneAller(){
 		this.initMenu();
 		this.initCouleur();
 		Mouvement mv = new Mouvement(cs);
@@ -127,19 +131,54 @@ public class SuiveurLigne {
 		 */
 		
 		//Sortir de la couleur debut
-		while(!couleurLigne.egale(cs.getColor())){
-			mv.avancer(couleurDebut);
-		}
+		mv.sortirDebut(couleurDebut, couleurLigne);
+				
+		//Detecter le bord: 
+		mv.getBord();
+		
 		//Suivre la ligne allez vers la fin
-		while(!couleurFin.egale(cs.getColor())){
-			mv.avancer(couleurLigne);				
-		}
+		mv.avancer(couleurLigne, couleurFin);		
+			
 		mv.stop();
+		return true;
+	}
+	
+	public boolean SuivreLigneAllerRetour(){
+		this.initMenu();
+		this.initCouleur();
+		Mouvement mv = new Mouvement(cs);
+	
+		LCD.clear();
+		System.out.println("Enter pour lancer");
+		Button.waitForAnyPress();
+		
+		//Mouvement mouvement = new Mouvement(180);
+		/*
+		 * Pseudocode 
+		 * 
+		 * - Tantque ce n'est pas rouge, on avance
+		 * - Quand c'est Rouge, on arrete
+		 * - Faire demi tour
+		 * - Tant que ce n'est pas jaune, on avance
+		 * - Quand c'est jaune, on arrete
+		 * 
+		 */
+		
+		//Sortir de la couleur debut
+		mv.sortirDebut(couleurDebut, couleurLigne);
+				
+		//Detecter le bord: 
+		mv.getBord();
+		
+		//Suivre la ligne allez vers la fin
+		mv.avancer(couleurLigne, couleurFin);		
+			
+		mv.stop();
+		//Faire demi-tour: 
 		mv.demiTour(couleurLigne);
+		
 		//Suivre la ligne et revenir au debut
-		while(!couleurDebut.egale(cs.getColor())){
-			mv.avancer(couleurLigne);
-		}
+		mv.avancer(couleurLigne, couleurDebut);
 		mv.stop();
 		return true;
 	}

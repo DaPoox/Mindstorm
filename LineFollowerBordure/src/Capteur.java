@@ -16,7 +16,9 @@ public class Capteur extends Thread{
 	static Couleur BLANC;
 	
 	private Color couleurCapte;
+	
 	public ColorSensor cs;
+
 	
 	public Capteur(SensorPort port){
 		this.cs = new ColorSensor(port);
@@ -26,6 +28,7 @@ public class Capteur extends Thread{
 		JAUNE = new Couleur();
 		NOIR = new Couleur();
 		ROUGE = new Couleur();
+		
 	}
 	public Color getColor(){
 		return couleurCapte;
@@ -35,6 +38,7 @@ public class Capteur extends Thread{
         	couleurCapte = cs.getColor();
         } while (!isInterrupted());
 	}
+	
 	/*
 	 * Placer le robot sur chaque couleur pendant quelques secondes, 
 	 * le temps que le capteur lit les valeur est en deduit les Min et Max
@@ -193,21 +197,6 @@ public class Capteur extends Thread{
 		Couleur clr = c;
 		Color color;
 		LCD.clear();
-		/*
-		//Executer la boucle pendant 10 secondes:
-		long time = System.currentTimeMillis();
-		while(System.currentTimeMillis() < time+10000){
-		int i=0;
-		//while(i != 5){
-			color = couleurCapte;
-			LCD.clear();
-			LCD.drawString("RGB: ", 0, 1);
-			LCD.drawString(color.getRed()+" - "+color.getGreen()+" - "+color.getBlue(), 0, 2);
-			clr = UpdateColor(clr, color);
-			//Button.waitForAnyPress();
-			i++;
-		}	
-		*/
 		int compteur = 0;
 		while(compteur != 9){
 			color = couleurCapte;
