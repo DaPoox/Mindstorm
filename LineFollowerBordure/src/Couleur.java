@@ -10,6 +10,7 @@ public class Couleur {
 	
 	private int minB;
 	private int maxB;
+
 	
 	private boolean calibrated = false;
 	
@@ -81,7 +82,7 @@ public class Couleur {
 	public boolean isCalibrated(){
 		return 	this.calibrated;
 	}
-	
+
 	public boolean egale(Color color){
 		LCD.clear();
 		boolean rslt = ((color.getRed()>= this.minR && color.getRed()<= this.maxR) &&
