@@ -113,7 +113,7 @@ public class Mouvement {
 			
 			pilot.steer(acceleration);
 			t2 = System.currentTimeMillis();
-			if((t2-t1)>100){
+			if((t2-t1)>1000){
 				location = pp.getPose().getLocation();
 				listPoints.add(location);
 				LCD.clear();

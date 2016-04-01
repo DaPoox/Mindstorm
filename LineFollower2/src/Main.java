@@ -14,7 +14,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		file = new Fichier();
+		file = new Fichier("couleur.dat");//Fichier qui contient les infos sur les couleurs
 		cs = new Capteur(SensorPort.S1);
 		cs.start();
 

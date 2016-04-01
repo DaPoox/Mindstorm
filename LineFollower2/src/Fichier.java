@@ -13,11 +13,11 @@ import lejos.nxt.Sound;
 import lejos.util.Delay;
 
 public class Fichier {
-	 	File data = new File("couleur.dat");
+	 	File data;
 	    int i;
 	    
-	    public Fichier(){
-	    	this.data = new File("couleur.dat");
+	    public Fichier(String name){
+	    	this.data = new File(name);
 	    	if (!data.exists()) {
 				try {
 					data.createNewFile();
