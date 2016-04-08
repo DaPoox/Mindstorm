@@ -17,7 +17,7 @@ public class Mouvement {
 	
 	Capteur cs;
 	
-	DifferentialPilot pilot;
+	static DifferentialPilot pilot;
 	Navigator navigator;
 	PoseProvider pp;
 
@@ -30,7 +30,7 @@ public class Mouvement {
 	int speedA = defaultSpeed;
 	int speedC = defaultSpeed;
 	
-	int acceleration = 0;
+	static int acceleration = 0;
 	
 	public Mouvement(Capteur cs){
 		this.cs = cs;
@@ -88,9 +88,8 @@ public class Mouvement {
 		
 		this.range = lumMax - lumMin;
 	}
-	
-	public Path avancer(Couleur couleurLigne, Couleur couleurFin){	
 
+	public Path avancer(Couleur couleurLigne, Couleur couleurFin){	
 		double lumCouleurLu;
 		Point location;
 		long t1, t2;
@@ -111,7 +110,8 @@ public class Mouvement {
 			if(lumCouleurLu>lumBord){
 				acceleration *= 2;	
 			}		
-			pilot.steer(acceleration);
+
+			cs.setSpeed(acceleration);
 			
 			//Get la position chaque seconde
 			t2 = System.currentTimeMillis();
@@ -124,6 +124,7 @@ public class Mouvement {
 			}
 		}
 		//On a terminé la ligne, on sauvgarde les points dans Path: 
+		cs.setStop(true);
 		pilot.stop();
 		
 		Path path = new Path();
@@ -135,7 +136,6 @@ public class Mouvement {
 		LCD.clear();
 		return path;
 	}
-
 	public void demiTour(Couleur couleurLigne){
 		Motor.A.setSpeed(defaultSpeed/2);
 		Motor.C.setSpeed(defaultSpeed/2);
@@ -168,7 +168,6 @@ public class Mouvement {
 		}
 		LCD.drawString("X:"+location.getX(), 0,2);
 		LCD.drawString("Y:"+location.getY(), 0,3);
-
 		pilot.stop();
 		Button.waitForAnyPress();
 		pilot.forward();

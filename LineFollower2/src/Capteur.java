@@ -20,7 +20,9 @@ public class Capteur extends Thread{
 	
 	public ColorSensor cs;
 
-	
+	private int speed; 
+	private boolean turn;
+	private boolean stop;
 	public Capteur(SensorPort port){
 		this.cs = new ColorSensor(port);
 		BLEU = new Couleur();
@@ -29,6 +31,8 @@ public class Capteur extends Thread{
 		JAUNE = new Couleur();
 		NOIR = new Couleur();
 		ROUGE = new Couleur();
+		this.turn = false;
+		this.stop = false;
 		
 	}
 	public Color getColor(){
@@ -41,15 +45,24 @@ public class Capteur extends Thread{
 		do {
 			lightValue = cs.getLightValue();
         	couleurCapte = cs.getColor();
+        	if(turn == true){
+        		Mouvement.pilot.steer(this.speed);
+        		turn = false;
+        	}
+        	if(stop == true){
+        		Mouvement.pilot.stop();
+        	}
+
         } while (!isInterrupted());
 	}
 	
-	/*
-	 * Placer le robot sur chaque couleur pendant quelques secondes, 
-	 * le temps que le capteur lit les valeur est en deduit les Min et Max
-	 * de la couleur.
-	 */
-	
+	public void setStop(boolean s){
+		this.stop = s;
+	}
+	public void setSpeed(int speed){
+		this.speed = speed;
+		turn = true;
+	}
 	public boolean Calibrate(){
 		String[] tabOption= {"Noir", "Bleu", "Vert", "Jaune", "Rouge", "Blanc", "Fin"};
 		TextMenu textmenu = new TextMenu(tabOption);
@@ -184,15 +197,14 @@ public class Capteur extends Thread{
 			case 6:{
 				finChoix = true;
 			}break;
-		}
-			//Button.waitForAnyPress();
+			}
 		}
 		return true;
 	}
 	
 	public void afficherMsgCalibrate(){
 		LCD.clear();
-		LCD.drawString("Placer Ccapteur", 0, 1);
+		LCD.drawString("Placer Capteur", 0, 1);
 		LCD.drawString("Entrer: Continuer", 0, 3);
 		LCD.drawString("Esc: Quitter", 0, 4);
 	

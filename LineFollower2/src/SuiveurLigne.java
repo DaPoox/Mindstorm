@@ -145,9 +145,7 @@ public class SuiveurLigne {
 		this.chemin = mv.avancer(couleurLigne, couleurFin);		
 		
 		mv.stop();
-		/*
-		 * Refaire/dessiner le chemin...
-		 */		
+
 		//Sauvgarder le chemin sur le fichier:
 		this.savePath();
 		

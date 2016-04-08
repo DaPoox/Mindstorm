@@ -26,7 +26,7 @@ public class Main {
 		 * Choix, etalonnage, demarrer...
 		 */
 		
-		String[] tabOption= {"Etalonnage", "SuivLigne(A/R)", "SuivLigne(Aller))", "Detecter", "Quitter"};
+		String[] tabOption= {"Etalonnage", "SuivLigne(A/R)", "SuivLigne(Aller))", "Detecter"};
 		TextMenu textmenu = new TextMenu(tabOption);
 		textmenu.setTitle("Que faire?");
 		LCD.drawString("Suiveur de ligne", 0, 4);
@@ -39,14 +39,12 @@ public class Main {
 			switch(selected){
 				case 0: Etalonnage();
 				break;
-				//case 1: sv.SuivreLigneAllerRetour();
 				case 1: sv.SuivreLigneAllerRetour();
 				break;
 				case 2: sv.SuivreLigneAller();
 				break;
 				case 3: dt.detecter();
 				break;
-				case 4: mv.avancer(cs.BLANC, cs.ROUGE);
 			}
 		}
 	}

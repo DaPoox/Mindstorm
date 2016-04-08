@@ -89,11 +89,6 @@ public class Couleur {
 				(color.getBlue()>= this.minB && color.getBlue()<= this.maxB)&&
 				(color.getGreen()>= this.minG && color.getGreen()<= this.maxG));
 		
-		LCD.drawString(""+this.minR+" - "+color.getRed()+" - "+this.maxR, 0, 0);
-		LCD.drawString(""+this.minG+" - "+color.getGreen()+" - "+this.maxG, 0, 1);
-		LCD.drawString(""+this.minB+" - "+color.getBlue()+" - "+this.maxB, 0, 2);
-		LCD.drawString(""+rslt,0, 3);
-		
 		return rslt;
 	}
 	public String toString(){
