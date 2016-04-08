@@ -1,15 +1,6 @@
-import java.awt.image.BufferedImage;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import javax.microedition.lcdui.Graphics;
-import javax.microedition.lcdui.Image;
-
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
+import lejos.robotics.navigation.Waypoint;
 import lejos.robotics.pathfinding.Path;
 import lejos.util.TextMenu;
 
@@ -17,6 +8,8 @@ public class SuiveurLigne {
 	Capteur cs;
 	
 	Fichier file;
+	Fichier filePath;
+	
 	String[] tabOption= new String[6];
 	Couleur[] couleurs = new Couleur[6];
 	
@@ -150,16 +143,13 @@ public class SuiveurLigne {
 		
 		//Suivre la ligne allez vers la fin, on recupère le chemin 
 		this.chemin = mv.avancer(couleurLigne, couleurFin);		
-
+		
 		mv.stop();
 		/*
 		 * Refaire/dessiner le chemin...
-		 */
-		System.out.println("Refaire/dessiner le chemin...\n");
-		Button.waitForAnyPress();
-		
-		refaireChemin();
-
+		 */		
+		//Sauvgarder le chemin sur le fichier:
+		this.savePath();
 		
 		return true;
 	}
@@ -205,8 +195,19 @@ public class SuiveurLigne {
 		return true;
 	}
 	
+	public void savePath(){
+		//Instancier le fichier! 
+		this.file = new Fichier("chemin.txt");
+		
+		//Créer la chaine à sauvgarder dans le fichier: 
+		String data = "";
+		for(Waypoint wp : this.chemin){
+			data += ""+wp.x+"/"+wp.y+"/\n";
+		}
+		file.write(data);
+	}
+	
 	public void refaireChemin(){
-
 		Mouvement mv = new Mouvement(cs);
 		mv.follow(this.chemin);
 	}
