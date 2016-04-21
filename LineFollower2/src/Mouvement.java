@@ -22,15 +22,21 @@ public class Mouvement {
 	PoseProvider pp;
 
 	ArrayList<Point> listPoints;
+	static ArrayList<Float> listRadius;
 	
 	double lumBord;
 	double range;
+	
+	boolean isTurning;
+	double radius;
 	
 	int defaultSpeed = 240;
 	int speedA = defaultSpeed;
 	int speedC = defaultSpeed;
 	
 	static int acceleration = 0;
+	//A supprimer !!
+	static ArrayList<Point> listCenter;
 	
 	public Mouvement(Capteur cs){
 		this.cs = cs;
@@ -40,6 +46,9 @@ public class Mouvement {
 		navigator = new Navigator(pilot);
 		pp = new OdometryPoseProvider(pilot);
 		this.listPoints = new ArrayList<Point>();
+		this.listCenter = new ArrayList<Point>();
+		this.isTurning = false;
+		this.radius =0;
 	}
 	
 	public void sortirDebut(Couleur couleurDebut, Couleur couleurLigne){
@@ -101,6 +110,7 @@ public class Mouvement {
 	
 		LCD.clear();
 
+		int nbPoint = 0;
 		t1 = System.currentTimeMillis();
 		while(!couleurFin.egale(cs.getColor())){
 			//Récupérer la luminance de la couleur captée
@@ -111,14 +121,20 @@ public class Mouvement {
 				acceleration *= 2;	
 			}		
 
-			cs.setSpeed(acceleration);
-			
+			cs.setSpeed(acceleration);			
 			//Get la position chaque seconde
 			t2 = System.currentTimeMillis();
-			if((t2-t1)>2000){
+			if((t2-t1)>500){
 				location = pp.getPose().getLocation();
 				//Afficher le type du deplacement
-				this.getMouvementType(location);
+				//this.getMouvementType(location);
+				nbPoint ++;
+				if(nbPoint == 3){
+					//On a 
+					this.getMouvementType(listPoints.get(listPoints.size()-1));
+
+					nbPoint = 0;
+				}
 				listPoints.add(location);
 				t1 = System.currentTimeMillis();
 			}
@@ -135,6 +151,13 @@ public class Mouvement {
 		}
 		LCD.clear();
 		return path;
+	}
+	public void calculerRayon(){
+		this.radius = this.pilot.getMovement().getArcRadius();
+		Point pt = new Point(0,0);
+		pt.x = (float) (listPoints.get(listPoints.size()-1).getX() - this.radius*Math.cos(pilot.getMovement().getAngleTurned()));
+		pt.y = (float) (listPoints.get(listPoints.size()-1).getY() - this.radius*Math.sin(pilot.getMovement().getAngleTurned()));
+		 this.listPoints.add(pt);
 	}
 	public void demiTour(Couleur couleurLigne){
 		Motor.A.setSpeed(defaultSpeed/2);
@@ -154,23 +177,24 @@ public class Mouvement {
 	}
 	
 	public void getMouvementType(Point location){
-		Point last = this.listPoints.get(this.listPoints.size()-1);
+		Point last = this.listPoints.get(this.listPoints.size()-2);
 		double dif = 2;
 		if(location.getY() < last.getY() + dif && location.getY() > last.getY() - dif){
 			LCD.clear();
 			LCD.drawString("Robot tout droit", 0, 1);
+			this.radius = 0;
+			this.isTurning = false;
 		}else if(location.getY() > last.getY() + dif){
 			LCD.clear();
-			LCD.drawString("Virage gauche", 0, 1);;
+			LCD.drawString("Virage gauche", 0, 1);
+			calculerRayon();
+			this.isTurning = true;
 		}else{
 			LCD.clear();
 			LCD.drawString("Virage à droite",0,1);
+			calculerRayon();
+			this.isTurning = true;
 		}
-		LCD.drawString("X:"+location.getX(), 0,2);
-		LCD.drawString("Y:"+location.getY(), 0,3);
-		pilot.stop();
-		Button.waitForAnyPress();
-		pilot.forward();
 	}
 	
 	public void stop(){
