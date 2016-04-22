@@ -18,8 +18,11 @@ public class SuiveurLigne {
 	Couleur couleurFin;
 	Couleur couleurLigne;
 	Couleur couleurBlanc;
+	Couleur couleur1;
+	Couleur couleur2;
 	
 	Path chemin;
+	
 	
 	public SuiveurLigne(Capteur cs, Fichier file){
 		this.cs = cs;
@@ -95,6 +98,23 @@ public class SuiveurLigne {
 		
 		return textmenu.select();
 	}
+	
+	public int menuCouleur1(){
+		LCD.clear();
+		TextMenu textmenu = new TextMenu(tabOption);
+		textmenu.setTitle("Couleur code 1");
+		
+		return textmenu.select();
+	}
+	
+	public int menuCouleur2(){
+		LCD.clear();
+		TextMenu textmenu = new TextMenu(tabOption);
+		textmenu.setTitle("Couleur code 2");
+		
+		return textmenu.select();
+	}
+	
 
 	public void initCouleur(){
 		int choix = 0;
@@ -112,18 +132,29 @@ public class SuiveurLigne {
 		if(choix == tabOption.length-1){
 			return;
 		}else couleurLigne = couleurs[choix];
+		
+		choix = menuCouleur1();
+		if(choix == tabOption.length-1){
+			return;
+		}else couleur1 = couleurs[choix];
+		
+		choix = menuCouleur2();
+		if(choix == tabOption.length-1){
+			return;
+		}else couleur2 = couleurs[choix];
 	}
 	
 	
 	public boolean SuivreLigneAller(){
 		this.initMenu();
 		this.initCouleur();
-		Mouvement mv = new Mouvement(cs);
+		Mouvement mv = new Mouvement(cs, this.couleur1, this.couleur2);
 		
 		LCD.clear();
 		System.out.println("Enter pour lancer");
 		Button.waitForAnyPress();
 		
+		mv.avancerTtDroit();
 		//Mouvement mouvement = new Mouvement(180);
 		/*
 		 * Pseudocode 
@@ -156,7 +187,7 @@ public class SuiveurLigne {
 	public boolean SuivreLigneAllerRetour(){
 		this.initMenu();
 		this.initCouleur();
-		Mouvement mv = new Mouvement(cs);
+		Mouvement mv = new Mouvement(cs, this.couleur1, this.couleur2);
 	
 		LCD.clear();
 		System.out.println("Enter pour lancer");
@@ -207,7 +238,19 @@ public class SuiveurLigne {
 	}
 	
 	public void refaireChemin(){
-		Mouvement mv = new Mouvement(cs);
+		Mouvement mv = new Mouvement(cs, this.couleur1, this.couleur2);
 		mv.follow(this.chemin);
+	}
+	
+	public void testerCode(){
+		this.initMenu();
+		this.initCouleur();
+		Mouvement mv = new Mouvement(cs, this.couleur1, this.couleur2);
+		
+		LCD.clear();
+		System.out.println("Enter pour lancer");
+		Button.waitForAnyPress();
+		
+		mv.avancerTtDroit();
 	}
 }
