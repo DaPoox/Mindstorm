@@ -132,7 +132,10 @@ public class Mouvement {
 				if(nbPoint == 3){
 					//On a 
 					this.getMouvementType(listPoints.get(listPoints.size()-1));
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8d76f7a3277d20c9abb230e644cb313ea6f9f14c
 					nbPoint = 0;
 				}
 				listPoints.add(location);
@@ -153,11 +156,49 @@ public class Mouvement {
 		return path;
 	}
 	public void calculerRayon(){
+<<<<<<< HEAD
 		this.radius = this.pilot.getMovement().getArcRadius();
 		Point pt = new Point(0,0);
 		pt.x = (float) (listPoints.get(listPoints.size()-1).getX() - this.radius*Math.cos(pilot.getMovement().getAngleTurned()));
 		pt.y = (float) (listPoints.get(listPoints.size()-1).getY() - this.radius*Math.sin(pilot.getMovement().getAngleTurned()));
 		 this.listPoints.add(pt);
+=======
+		/*
+		 * 	Méthode pour calculer le rayon de courbature, 
+		 * algorithme utilisé:
+		 *  source = http://www.ehow.com/how_5899905_radius-three-points.html
+		 * 
+		 */
+		//Récupération des 3 derniers points: 
+		double x1 = listPoints.get(listPoints.size()-1).getX();
+		double y1 = listPoints.get(listPoints.size()-1).getY();
+		
+		double x2 = listPoints.get(listPoints.size()-2).getX();
+		double y2 = listPoints.get(listPoints.size()-2).getY();
+		
+		double x3 = listPoints.get(listPoints.size()-3).getX();
+		double y3 = listPoints.get(listPoints.size()-3).getY();
+		
+		//Calcule de mA mB:
+		double mA = (y2-y1)/(x2-x1);
+		double mB = (y3-y2)/(x3-x2);
+		
+		//Calculer les coordonnées du centre du cercle: 
+		double x =((mA*mB*(y3-y1)+ mA*(x2+x3)) - mB*(x1+x2)/(2*(mA-mB)));
+		double y = ((x1+x2)/2 - x)/mA + (y1+y2)/2;
+		
+		//Calcul de la distance entre le centre est un des trois points (on choisit x1 et y1):
+		this.radius = Math.sqrt((x-x1)*(x-x1) + (y-y1)*(y-y1)); 
+		
+		//Affichage:
+		LCD.clear();
+		LCD.drawString("Radius = "+this.radius, 0, 0);
+		LCD.drawString("xCenter= "+x, 0, 1);
+		LCD.drawString("yCenter= "+y, 0, 2);
+		Point pt = new Point((float)x, (float)y);
+		this.listCenter.add(pt);
+	
+>>>>>>> 8d76f7a3277d20c9abb230e644cb313ea6f9f14c
 	}
 	public void demiTour(Couleur couleurLigne){
 		Motor.A.setSpeed(defaultSpeed/2);

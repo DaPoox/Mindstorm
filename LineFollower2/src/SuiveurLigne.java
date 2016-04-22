@@ -1,3 +1,4 @@
+import lejos.geom.Point;
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.robotics.navigation.Waypoint;

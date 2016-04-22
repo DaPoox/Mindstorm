@@ -31,6 +31,7 @@ public class Capteur extends Thread{
 		JAUNE = new Couleur();
 		NOIR = new Couleur();
 		ROUGE = new Couleur();
+		
 		this.turn = false;
 		this.stop = false;
 		
@@ -51,6 +52,7 @@ public class Capteur extends Thread{
         	}
         	if(stop == true){
         		Mouvement.pilot.stop();
+        		stop = false;
         	}
 
         } while (!isInterrupted());
