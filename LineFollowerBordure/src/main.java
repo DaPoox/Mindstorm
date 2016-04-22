@@ -1,3 +1,5 @@
+import java.awt.image.BufferedImage;
+
 import lejos.nxt.Button;
 import lejos.nxt.ColorSensor.Color;
 import lejos.util.Delay;
@@ -24,7 +26,7 @@ public class main {
 		
 		/*
 		 * Choix, etalonnage, demarrer...
-		 */
+		 */		
 		
 		String[] tabOption= {"Etalonnage", "SuivLigne(A/R)", "SuivLigne(Aller))", "Detecter", "Quitter"};
 		TextMenu textmenu = new TextMenu(tabOption);

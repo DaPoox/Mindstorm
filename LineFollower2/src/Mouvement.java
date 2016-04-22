@@ -22,6 +22,7 @@ public class Mouvement {
 	PoseProvider pp;
 
 	ArrayList<Point> listPoints;
+	static ArrayList<Float> listRadius;
 	
 	double lumBord;
 	double range;
@@ -131,6 +132,10 @@ public class Mouvement {
 				if(nbPoint == 3){
 					//On a 
 					this.getMouvementType(listPoints.get(listPoints.size()-1));
+<<<<<<< HEAD
+
+=======
+>>>>>>> 8d76f7a3277d20c9abb230e644cb313ea6f9f14c
 					nbPoint = 0;
 				}
 				listPoints.add(location);
@@ -151,6 +156,13 @@ public class Mouvement {
 		return path;
 	}
 	public void calculerRayon(){
+<<<<<<< HEAD
+		this.radius = this.pilot.getMovement().getArcRadius();
+		Point pt = new Point(0,0);
+		pt.x = (float) (listPoints.get(listPoints.size()-1).getX() - this.radius*Math.cos(pilot.getMovement().getAngleTurned()));
+		pt.y = (float) (listPoints.get(listPoints.size()-1).getY() - this.radius*Math.sin(pilot.getMovement().getAngleTurned()));
+		 this.listPoints.add(pt);
+=======
 		/*
 		 * 	Méthode pour calculer le rayon de courbature, 
 		 * algorithme utilisé:
@@ -186,6 +198,7 @@ public class Mouvement {
 		Point pt = new Point((float)x, (float)y);
 		this.listCenter.add(pt);
 	
+>>>>>>> 8d76f7a3277d20c9abb230e644cb313ea6f9f14c
 	}
 	public void demiTour(Couleur couleurLigne){
 		Motor.A.setSpeed(defaultSpeed/2);

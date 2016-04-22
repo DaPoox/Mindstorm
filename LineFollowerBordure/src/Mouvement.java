@@ -1,6 +1,7 @@
-import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.Motor;
+import lejos.robotics.navigation.MoveController;
+import lejos.robotics.navigation.Navigator;
 import lejos.util.Delay;
 
 public class Mouvement {
