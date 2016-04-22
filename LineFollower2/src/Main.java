@@ -20,7 +20,6 @@ public class Main {
 
 		SuiveurLigne sv = new SuiveurLigne(cs,file);
 		Detecter dt = new Detecter(cs, file);
-		Mouvement mv = new Mouvement(cs);
 		
 		/*
 		 * Choix, etalonnage, demarrer...
@@ -41,7 +40,8 @@ public class Main {
 				break;
 				case 1: sv.SuivreLigneAllerRetour();
 				break;
-				case 2: sv.SuivreLigneAller();
+	//			case 2: sv.SuivreLigneAller();
+				case 2: sv.testerCode();
 				break;
 				case 3: dt.detecter();
 				break;
