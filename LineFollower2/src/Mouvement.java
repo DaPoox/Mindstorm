@@ -109,9 +109,6 @@ public class Mouvement {
 
 		location = pp.getPose().getLocation();
 		listPoints.add(location);
-		
-		pilot.forward();
-	
 		LCD.clear();
 
 		int nbPoint = 0;
@@ -128,7 +125,7 @@ public class Mouvement {
 			cs.setSpeed(acceleration);			
 			//Get la position chaque seconde
 			t2 = System.currentTimeMillis();
-			if((t2-t1)>500){
+			if((t2-t1)>400){
 				location = pp.getPose().getLocation();
 				//Afficher le type du deplacement
 				//this.getMouvementType(location);
@@ -139,16 +136,18 @@ public class Mouvement {
 					nbPoint = 0;
 				}
 				listPoints.add(location);
+				
+				listPoints.add(new Point((float) this.radius, (float)0));
 				t1 = System.currentTimeMillis();
-			}
-			
+			}	
 			//Vérifier si on est dans la partie "code": 
 			if(this.couleur1.egale(cs.getColor()) || this.couleur2.egale(cs.getColor())){
 				//On est dans la partie Code, lancer la méthode pour enregistrer le code:
+				pilot.stop();
+				System.out.println("La partie code!");
+				Button.waitForAnyPress();
+				LCD.clear();
 				getCode();
-				/*
-				 * 
-				 */
 			}
 		}
 		
@@ -166,12 +165,7 @@ public class Mouvement {
 		return path;
 	}
 	public void calculerRayon(){
-		this.radius = pilot.getMovement().getArcRadius();
-/*		Point pt = new Point(0,0);
-		pt.x = (float) (listPoints.get(listPoints.size()-1).getX() - this.radius*Math.cos(pilot.getMovement().getAngleTurned()));
-		pt.y = (float) (listPoints.get(listPoints.size()-1).getY() - this.radius*Math.sin(pilot.getMovement().getAngleTurned()));
-		 this.listPoints.add(pt);
-		 */
+		this.radius = pilot.getMovement().getArcRadius();	
 	}
 	
 	public void demiTour(Couleur couleurLigne){
@@ -229,6 +223,7 @@ public class Mouvement {
 			c1 = this.couleur1;
 		}else c1 = this.couleur2;
 		while(c1.egale(cs.getColor())){
+			cs.setStop(false);
 			pilot.forward();
 		}
 		pilot.stop();
@@ -264,17 +259,6 @@ public class Mouvement {
 		this.code.afficherCode();
 		Button.waitForAnyPress();
 		pilot.forward();
-	}
-	/* Méthode temporaire, juste pour tester la partie Code: */
-	public void avancerTtDroit(){
-		//Vérifier si on est dans la partie "code": 
-		while(!(this.couleur1.egale(cs.getColor()) || this.couleur1.egale(cs.getColor()))){
-			//On PAS est dans la partie Code, Avancer:
-			pilot.forward();
-		}
-		getCode();
-		Delay.msDelay(3000);
-		pilot.stop();
 	}
 }
 

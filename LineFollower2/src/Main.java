@@ -40,8 +40,8 @@ public class Main {
 				break;
 				case 1: sv.SuivreLigneAllerRetour();
 				break;
-	//			case 2: sv.SuivreLigneAller();
-				case 2: sv.testerCode();
+				case 2: sv.SuivreLigneAller();
+				//case 2: sv.testerCode();
 				break;
 				case 3: dt.detecter();
 				break;
