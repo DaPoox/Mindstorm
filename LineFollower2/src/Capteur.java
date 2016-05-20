@@ -68,7 +68,7 @@ public class Capteur extends Thread{
 		turn = true;
 	}
 	public boolean Calibrate(){
-		String[] tabOption= {"Noir", "Bleu", "Vert", "Jaune", "Rouge", "Orange", "Fin"};
+		String[] tabOption= {"Noir", "Bleu", "Vert", "Jaune", "Rouge", "Orange","Fin"};
 		TextMenu textmenu = new TextMenu(tabOption);
 		textmenu.setTitle("Choisir la couleur:");
 		

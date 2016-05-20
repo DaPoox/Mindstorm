@@ -43,6 +43,7 @@ public class Detecter {
 		LCD.drawString("Entrer", 0, 2);
 		Button.waitForAnyPress();
 		
+
 		//Lire la couleur: 
 		couleur = cs.getColor();
 		

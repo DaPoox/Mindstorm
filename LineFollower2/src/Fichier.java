@@ -21,7 +21,7 @@ public class Fichier {
 	    	if (!data.exists()) {
 				try {
 					data.createNewFile();
-					System.out.println("Fichier Cree");
+					System.out.println("Fichier Creé");
 					Delay.msDelay(500);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

@@ -32,7 +32,6 @@ public class Couleur {
 		this.maxB = maxB;
 	}
 
-	
 	//Setters: 
 	public void setMinR(int minR) {
 		this.minR = minR;

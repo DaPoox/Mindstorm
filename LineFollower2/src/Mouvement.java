@@ -35,7 +35,8 @@ public class Mouvement {
 	
 	static int acceleration = 0;
 	
-	//Couleur des codes: 
+	//Couleur des codes:
+ 
 	private Couleur couleur1;
 	private Couleur couleur2;
 	private String code;

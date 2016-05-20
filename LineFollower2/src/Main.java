@@ -21,7 +21,8 @@ public class Main {
 		SuiveurLigne sv = new SuiveurLigne(cs,file);
 		Detecter dt = new Detecter(cs, file);
 		
-		/*
+	
+	/*
 		 * Choix, etalonnage, demarrer...
 		 */
 		

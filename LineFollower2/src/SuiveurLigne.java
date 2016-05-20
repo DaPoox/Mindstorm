@@ -56,7 +56,7 @@ public class SuiveurLigne {
 		}
 		if(cs.JAUNE.isCalibrated()){
 			tabOption[i] = "Jaune";
-			couleurs[i] = cs.JAUNE;
+			 couleurs[i] = cs.JAUNE;
 
 			i++;
 		}
