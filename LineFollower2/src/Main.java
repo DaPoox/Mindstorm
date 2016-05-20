@@ -81,7 +81,7 @@ public class Main {
 		contenu += cs.VERT.toStringFile()+'\n';
 		contenu += cs.JAUNE.toStringFile()+'\n';
 		contenu += cs.ROUGE.toStringFile()+'\n';
-		contenu += cs.BLANC.toStringFile()+'\n';
+		contenu += cs.ORANGE.toStringFile()+'\n';
 		return contenu;
 	}
 }

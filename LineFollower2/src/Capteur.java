@@ -13,7 +13,7 @@ public class Capteur extends Thread{
 	static Couleur VERT;
 	static Couleur ROUGE;
 	static Couleur NOIR;
-	static Couleur BLANC;
+	static Couleur ORANGE;
 	
 	private Color couleurCapte;
 	private int lightValue;
@@ -26,7 +26,7 @@ public class Capteur extends Thread{
 	public Capteur(SensorPort port){
 		this.cs = new ColorSensor(port);
 		BLEU = new Couleur();
-		BLANC = new Couleur();
+		ORANGE = new Couleur();
 		VERT = new Couleur();
 		JAUNE = new Couleur();
 		NOIR = new Couleur();
@@ -68,7 +68,7 @@ public class Capteur extends Thread{
 		turn = true;
 	}
 	public boolean Calibrate(){
-		String[] tabOption= {"Noir", "Bleu", "Vert", "Jaune", "Rouge", "Blanc", "Fin"};
+		String[] tabOption= {"Noir", "Bleu", "Vert", "Jaune", "Rouge", "Orange", "Fin"};
 		TextMenu textmenu = new TextMenu(tabOption);
 		textmenu.setTitle("Choisir la couleur:");
 		
@@ -177,13 +177,13 @@ public class Capteur extends Thread{
 				textmenu.setItems(tabOption);
 				LCD.clear();
 			}break;
-			//Blanc: 
+			//Orange: 
 			case 5:{
-				//Blanc:
+				//ORANGE:
 				//Afficher le msg et Attendre l'utilisateur 
-				BLANC = new Couleur();
+				ORANGE = new Couleur();
 				afficherMsgCalibrate();
-				LCD.drawString("sur le Blanc", 0, 2);
+				LCD.drawString("sur l'Orange", 0, 2);
 				Button.waitForAnyPress();
 
 				while(Button.ENTER.isUp()){
@@ -191,8 +191,8 @@ public class Capteur extends Thread{
 						break;
 					}
 				}
-				BLANC = Calibrate(BLANC);
-				BLANC.setCalibrated(true);
+				ORANGE = Calibrate(ORANGE);
+				ORANGE.setCalibrated(true);
 				tabOption[5]+= "--- OK";
 				textmenu.setItems(tabOption);
 				LCD.clear();		

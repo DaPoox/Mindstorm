@@ -17,7 +17,6 @@ public class SuiveurLigne {
 	Couleur couleurDebut;
 	Couleur couleurFin;
 	Couleur couleurLigne;
-	Couleur couleurBlanc;
 	Couleur couleur1;
 	Couleur couleur2;
 	
@@ -36,7 +35,7 @@ public class SuiveurLigne {
 		cs.VERT = file.read(2);
 		cs.JAUNE = file.read(3);
 		cs.ROUGE = file.read(4);
-		cs.BLANC = file.read(5);
+		cs.ORANGE = file.read(5);
 		int i=0;
 		if(cs.NOIR.isCalibrated()){
 			tabOption[i] = "Noir";
@@ -67,9 +66,9 @@ public class SuiveurLigne {
 
 			i++;
 		}
-		if(cs.BLANC.isCalibrated()){
-			tabOption[i] = "Blanc";
-			couleurs[i] = cs.BLANC;
+		if(cs.ORANGE.isCalibrated()){
+			tabOption[i] = "Orange";
+			couleurs[i] = cs.ORANGE;
 
 			i++;
 		}

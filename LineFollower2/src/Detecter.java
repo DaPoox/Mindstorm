@@ -28,8 +28,8 @@ public class Detecter {
 		tabCouleur[4] = file.read(4);//Rouge
 		tabNomCouleur[4] = "Rouge";
 		
-		tabCouleur[5] = file.read(5);//Blanc
-		tabNomCouleur[5] = "Blanc";
+		tabCouleur[5] = file.read(5);//Orange
+		tabNomCouleur[5] = "Orange";
 		
 	}
 	
