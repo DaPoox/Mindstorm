@@ -17,11 +17,9 @@ public class SuiveurLigne {
 	Couleur couleurDebut;
 	Couleur couleurFin;
 	Couleur couleurLigne;
-	Couleur couleur1;
-	Couleur couleur2;
+	Couleur couleurBlanc;
 	
 	Path chemin;
-	
 	
 	public SuiveurLigne(Capteur cs, Fichier file){
 		this.cs = cs;
@@ -35,7 +33,7 @@ public class SuiveurLigne {
 		cs.VERT = file.read(2);
 		cs.JAUNE = file.read(3);
 		cs.ROUGE = file.read(4);
-		cs.ORANGE = file.read(5);
+		cs.BLANC = file.read(5);
 		int i=0;
 		if(cs.NOIR.isCalibrated()){
 			tabOption[i] = "Noir";
@@ -56,7 +54,7 @@ public class SuiveurLigne {
 		}
 		if(cs.JAUNE.isCalibrated()){
 			tabOption[i] = "Jaune";
-			 couleurs[i] = cs.JAUNE;
+			couleurs[i] = cs.JAUNE;
 
 			i++;
 		}
@@ -66,9 +64,9 @@ public class SuiveurLigne {
 
 			i++;
 		}
-		if(cs.ORANGE.isCalibrated()){
-			tabOption[i] = "Orange";
-			couleurs[i] = cs.ORANGE;
+		if(cs.BLANC.isCalibrated()){
+			tabOption[i] = "Blanc";
+			couleurs[i] = cs.BLANC;
 
 			i++;
 		}
@@ -97,23 +95,6 @@ public class SuiveurLigne {
 		
 		return textmenu.select();
 	}
-	
-	public int menuCouleur1(){
-		LCD.clear();
-		TextMenu textmenu = new TextMenu(tabOption);
-		textmenu.setTitle("Couleur code 1");
-		
-		return textmenu.select();
-	}
-	
-	public int menuCouleur2(){
-		LCD.clear();
-		TextMenu textmenu = new TextMenu(tabOption);
-		textmenu.setTitle("Couleur code 2");
-		
-		return textmenu.select();
-	}
-	
 
 	public void initCouleur(){
 		int choix = 0;
@@ -131,29 +112,18 @@ public class SuiveurLigne {
 		if(choix == tabOption.length-1){
 			return;
 		}else couleurLigne = couleurs[choix];
-		
-		choix = menuCouleur1();
-		if(choix == tabOption.length-1){
-			return;
-		}else couleur1 = couleurs[choix];
-		
-		choix = menuCouleur2();
-		if(choix == tabOption.length-1){
-			return;
-		}else couleur2 = couleurs[choix];
 	}
 	
 	
 	public boolean SuivreLigneAller(){
 		this.initMenu();
 		this.initCouleur();
-		Mouvement mv = new Mouvement(cs, this.couleur1, this.couleur2);
+		Mouvement mv = new Mouvement(cs);
 		
 		LCD.clear();
 		System.out.println("Enter pour lancer");
 		Button.waitForAnyPress();
 		
-	//	mv.avancerTtDroit();
 		//Mouvement mouvement = new Mouvement(180);
 		/*
 		 * Pseudocode 
@@ -175,6 +145,8 @@ public class SuiveurLigne {
 		//Suivre la ligne allez vers la fin, on recupère le chemin 
 		this.chemin = mv.avancer(couleurLigne, couleurFin);		
 		
+		mv.stop();
+
 		//Sauvgarder le chemin sur le fichier:
 		this.savePath();
 		
@@ -184,7 +156,7 @@ public class SuiveurLigne {
 	public boolean SuivreLigneAllerRetour(){
 		this.initMenu();
 		this.initCouleur();
-		Mouvement mv = new Mouvement(cs, this.couleur1, this.couleur2);
+		Mouvement mv = new Mouvement(cs);
 	
 		LCD.clear();
 		System.out.println("Enter pour lancer");
@@ -225,6 +197,7 @@ public class SuiveurLigne {
 	public void savePath(){
 		//Instancier le fichier! 
 		this.file = new Fichier("chemin.txt");
+		
 		//Créer la chaine à sauvgarder dans le fichier: 
 		String data = "";
 		for(Waypoint wp : this.chemin){
@@ -234,7 +207,7 @@ public class SuiveurLigne {
 	}
 	
 	public void refaireChemin(){
-		Mouvement mv = new Mouvement(cs, this.couleur1, this.couleur2);
+		Mouvement mv = new Mouvement(cs);
 		mv.follow(this.chemin);
 	}
 }

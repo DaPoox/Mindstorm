@@ -22,6 +22,7 @@ public class Mouvement {
 	PoseProvider pp;
 
 	ArrayList<Point> listPoints;
+	static ArrayList<Float> listRadius;
 	
 	double lumBord;
 	double range;
@@ -34,14 +35,10 @@ public class Mouvement {
 	int speedC = defaultSpeed;
 	
 	static int acceleration = 0;
+	//A supprimer !!
+	static ArrayList<Point> listCenter;
 	
-	//Couleur des codes:
- 
-	private Couleur couleur1;
-	private Couleur couleur2;
-	private String code;
-	
-	public Mouvement(Capteur cs, Couleur c1, Couleur c2){
+	public Mouvement(Capteur cs){
 		this.cs = cs;
 		pilot = new DifferentialPilot(4.3f,12.7f, Motor.C, Motor.A);
 		pilot.setTravelSpeed(10);
@@ -49,12 +46,9 @@ public class Mouvement {
 		navigator = new Navigator(pilot);
 		pp = new OdometryPoseProvider(pilot);
 		this.listPoints = new ArrayList<Point>();
+		this.listCenter = new ArrayList<Point>();
 		this.isTurning = false;
 		this.radius =0;
-		
-		this.couleur1 = c1;
-		this.couleur2 = c2;
-		this.code = "";
 	}
 	
 	public void sortirDebut(Couleur couleurDebut, Couleur couleurLigne){
@@ -111,6 +105,9 @@ public class Mouvement {
 
 		location = pp.getPose().getLocation();
 		listPoints.add(location);
+		
+		pilot.forward();
+	
 		LCD.clear();
 
 		int nbPoint = 0;
@@ -127,7 +124,7 @@ public class Mouvement {
 			cs.setSpeed(acceleration);			
 			//Get la position chaque seconde
 			t2 = System.currentTimeMillis();
-			if((t2-t1)>400){
+			if((t2-t1)>500){
 				location = pp.getPose().getLocation();
 				//Afficher le type du deplacement
 				//this.getMouvementType(location);
@@ -135,24 +132,13 @@ public class Mouvement {
 				if(nbPoint == 3){
 					//On a 
 					this.getMouvementType(listPoints.get(listPoints.size()-1));
+
 					nbPoint = 0;
 				}
 				listPoints.add(location);
-				
-				listPoints.add(new Point((float) this.radius, (float)0));
 				t1 = System.currentTimeMillis();
-			}	
-			//Vérifier si on est dans la partie "code": 
-			if(this.couleur1.egale(cs.getColor()) || this.couleur2.egale(cs.getColor())){
-				//On est dans la partie Code, lancer la méthode pour enregistrer le code:
-				cs.setStop(true);
-				pilot.stop();
-				System.out.println("La partie code!");
-				LCD.clear();
-				this.getCode();
 			}
 		}
-		
 		//On a terminé la ligne, on sauvgarde les points dans Path: 
 		cs.setStop(true);
 		pilot.stop();
@@ -167,9 +153,12 @@ public class Mouvement {
 		return path;
 	}
 	public void calculerRayon(){
-		this.radius = pilot.getMovement().getArcRadius();	
+		this.radius = this.pilot.getMovement().getArcRadius();
+		Point pt = new Point(0,0);
+		pt.x = (float) (listPoints.get(listPoints.size()-1).getX() - this.radius*Math.cos(pilot.getMovement().getAngleTurned()));
+		pt.y = (float) (listPoints.get(listPoints.size()-1).getY() - this.radius*Math.sin(pilot.getMovement().getAngleTurned()));
+		 this.listPoints.add(pt);
 	}
-	
 	public void demiTour(Couleur couleurLigne){
 		Motor.A.setSpeed(defaultSpeed/2);
 		Motor.C.setSpeed(defaultSpeed/2);
@@ -212,68 +201,13 @@ public class Mouvement {
 		Motor.A.stop();
 		Motor.C.stop();
 	}
+	
+	
 	public void follow(Path path){
 		this.navigator.followPath(path);
 	}
 	
-	public void getCode(){
-		this.code = "";
-		Button.waitForAnyPress();
-		Couleur c1, c2, c3;
-	/* 1ere tranche du code: */
-		if(this.couleur1.egale(cs.getColor())){
-			c1 = this.couleur1;
-			this.code += "1";
-		}else{
-			c1 = this.couleur2;
-			this.code += "2";
-		}
-		while(c1.egale(cs.getColor())){
-			cs.setStop(false);
-			pilot.forward();
-		}
-		pilot.stop();
-		LCD.clear();
-		LCD.drawString("1", 0, 0);
-		Button.waitForAnyPress();
-	/* On est sortie de la premiere tranche... 2eme tranche maintenant: */
-		if(this.couleur1.egale(cs.getColor())){
-			c2 = this.couleur1;
-			this.code += "1";
-		}else{
-			c2 = this.couleur2;
-			this.code += "2";
-		}
-		while(c2.egale(cs.getColor())){
-			pilot.forward();
-		}
-		pilot.stop();
-		LCD.clear();
-		LCD.drawString("2", 0, 0);
-		Button.waitForAnyPress();
-	/* On est sortie de la 2eme tranche... 3eme tranche maintenant: */
-		if(this.couleur1.egale(cs.getColor())){
-			c3 = this.couleur1;
-			this.code += "1";
-		}else{
-			c3 = this.couleur2;
-			this.code += "2";
-		}
-		while(c3.egale(cs.getColor())){
-			pilot.forward();
-		}
-		pilot.stop();
-		LCD.clear();
-		LCD.drawString("3", 0, 0);
-		Button.waitForAnyPress();
-		pilot.forward();
-	/* On a terminer la lecture du code */
-		pilot.stop();
-		LCD.clear();
-		System.out.println("le code \n"+this.code);
-		Button.waitForAnyPress();
-		pilot.forward();
-	}
+
 }
 
 
