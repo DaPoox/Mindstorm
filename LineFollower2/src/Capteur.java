@@ -57,7 +57,9 @@ public class Capteur extends Thread{
 
         } while (!isInterrupted());
 	}
-	
+	public void setTurn(boolean t){
+		this.turn = t;
+	}
 	public void setStop(boolean s){
 		this.stop = s;
 	}

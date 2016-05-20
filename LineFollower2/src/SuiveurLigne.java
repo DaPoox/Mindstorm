@@ -154,7 +154,7 @@ public class SuiveurLigne {
 		System.out.println("Enter pour lancer");
 		Button.waitForAnyPress();
 		
-		mv.avancerTtDroit();
+	//	mv.avancerTtDroit();
 		//Mouvement mouvement = new Mouvement(180);
 		/*
 		 * Pseudocode 
@@ -176,8 +176,6 @@ public class SuiveurLigne {
 		//Suivre la ligne allez vers la fin, on recupère le chemin 
 		this.chemin = mv.avancer(couleurLigne, couleurFin);		
 		
-		mv.stop();
-
 		//Sauvgarder le chemin sur le fichier:
 		this.savePath();
 		
@@ -228,7 +226,6 @@ public class SuiveurLigne {
 	public void savePath(){
 		//Instancier le fichier! 
 		this.file = new Fichier("chemin.txt");
-		
 		//Créer la chaine à sauvgarder dans le fichier: 
 		String data = "";
 		for(Waypoint wp : this.chemin){
@@ -240,17 +237,5 @@ public class SuiveurLigne {
 	public void refaireChemin(){
 		Mouvement mv = new Mouvement(cs, this.couleur1, this.couleur2);
 		mv.follow(this.chemin);
-	}
-	
-	public void testerCode(){
-		this.initMenu();
-		this.initCouleur();
-		Mouvement mv = new Mouvement(cs, this.couleur1, this.couleur2);
-		
-		LCD.clear();
-		System.out.println("Enter pour lancer");
-		Button.waitForAnyPress();
-		
-		mv.avancerTtDroit();
 	}
 }
