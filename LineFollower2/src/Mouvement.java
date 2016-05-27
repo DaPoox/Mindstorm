@@ -147,7 +147,6 @@ public class Mouvement {
 				cs.setStop(true);
 				pilot.stop();
 				System.out.println("La partie code!");
-				Button.waitForAnyPress();
 				LCD.clear();
 				this.getCode();
 			}
@@ -157,7 +156,6 @@ public class Mouvement {
 				pilot.stop();
 				LCD.clear();
 				System.out.println("Orange found");
-				Button.waitForAnyPress();
 				choisirChemin();
 			}
 		}
@@ -180,16 +178,16 @@ public class Mouvement {
 		int numChemin = 0;
 		LCD.clear();
 		System.out.println("Avancer un peu");
-		Button.waitForAnyPress();
 		//Avancer un petit peu:
+		Motor.A.setSpeed(150);
+		Motor.C.setSpeed(150);
 		Motor.A.forward();
 		Motor.C.forward();
-		Delay.msDelay(500);
+		Delay.msDelay(850);
 		Motor.A.stop();
 		Motor.C.stop();
 		LCD.clear();
 		System.out.println("Go to Orange: ");
-		Button.waitForAnyPress();
 		//Tourner tout à gauche (jusqu'on retrouve l'onrange:
 		while(!cs.ORANGE.egale(cs.getColor())){
 			Motor.A.forward();
@@ -199,7 +197,6 @@ public class Mouvement {
 		Motor.C.stop();
 		LCD.clear();
 		System.out.println("Orange found!");
-		Button.waitForAnyPress();
 		//Choisir le chemin selon le code:
 		if(this.code.equals("")){
 			pilot.stop();
@@ -226,7 +223,6 @@ public class Mouvement {
 		int nbVertVu = 0;
 		LCD.clear();
 		System.out.print("Goto chemin nbChemin: "+chemin);;
-		Button.waitForAnyPress();
 		//Commencer à faire tourner le robot: 
 		while(nbVertVu != chemin){
 			Motor.A.backward();
@@ -238,17 +234,15 @@ public class Mouvement {
 				if(nbVertVu != chemin){
 					LCD.clear();
 					System.out.println("pas bon vert");
-					Button.waitForAnyPress();
 					//C'est pas le bon chemin, sortire de ce vert:
 					while(cs.VERT.egale(cs.getColor())){
 						Motor.A.backward();
 						Motor.C.forward(); 
 					}
-					Delay.msDelay(200);
+					Delay.msDelay(100);
 				}else{
 					LCD.clear();
 					System.out.println("bon vert");
-					Button.waitForAnyPress();
 				}
 			}
 		}
@@ -256,7 +250,6 @@ public class Mouvement {
 		Motor.A.stop();
 		LCD.clear();
 		System.out.println("Chemin trouve");
-		Button.waitForAnyPress();
 	}
 	
 	public void calculerRayon(){
@@ -329,7 +322,6 @@ public class Mouvement {
 		pilot.stop();
 		LCD.clear();
 		LCD.drawString("1", 0, 0);
-		Button.waitForAnyPress();
 
 		/* On est sortie de la premiere tranche*/	
 		if(!this.couleur1.egale(cs.getColor()) && !this.couleur2.egale(cs.getColor())){
@@ -355,7 +347,6 @@ public class Mouvement {
 		pilot.stop();
 		LCD.clear();
 		LCD.drawString("2", 0, 0);
-		Button.waitForAnyPress();
 	/* On a terminer la lecture du code */
 		pilot.stop();
 		LCD.clear();
