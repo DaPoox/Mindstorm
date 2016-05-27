@@ -123,7 +123,7 @@ public class Mouvement {
 				acceleration *= 2;	
 			}		
 			
-			cs.setSpeed(-acceleration);			
+			cs.setSpeed(acceleration);			
 			//Get la position chaque seconde
 			t2 = System.currentTimeMillis();
 			if((t2-t1)>400){
@@ -329,7 +329,6 @@ public class Mouvement {
 			pilot.stop();
 			LCD.clear();
 			System.out.println("le code \n"+this.code);
-			Button.waitForAnyPress();
 			pilot.forward();
 			return;
 		}
