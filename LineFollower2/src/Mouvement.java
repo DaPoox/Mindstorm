@@ -58,8 +58,7 @@ public class Mouvement {
 	}
 	
 	public void sortirDebut(Couleur couleurDebut, Couleur couleurLigne){
-		Motor.A.setSpeed(250);
-		Motor.C.setSpeed(250);
+	
 		while(!couleurLigne.egale(cs.getColor())){
 			Motor.A.forward();
 			Motor.C.forward();
@@ -123,8 +122,8 @@ public class Mouvement {
 			if(lumCouleurLu>lumBord){
 				acceleration *= 2;	
 			}		
-
-			cs.setSpeed(acceleration);			
+			
+			cs.setSpeed(-acceleration);			
 			//Get la position chaque seconde
 			t2 = System.currentTimeMillis();
 			if((t2-t1)>400){
@@ -148,11 +147,17 @@ public class Mouvement {
 				cs.setStop(true);
 				pilot.stop();
 				System.out.println("La partie code!");
+				Button.waitForAnyPress();
 				LCD.clear();
 				this.getCode();
 			}
 			//Si c'est l'orange, on choisi un chemin:
 			if(cs.ORANGE.egale(cs.getColor())){
+				cs.setStop(true);
+				pilot.stop();
+				LCD.clear();
+				System.out.println("Orange found");
+				Button.waitForAnyPress();
 				choisirChemin();
 			}
 		}
@@ -173,26 +178,31 @@ public class Mouvement {
 	
 	public void choisirChemin(){
 		int numChemin = 0;
-		pilot.stop();
-		cs.setStop(true);;
-		
+		LCD.clear();
+		System.out.println("Avancer un peu");
+		Button.waitForAnyPress();
 		//Avancer un petit peu:
 		Motor.A.forward();
 		Motor.C.forward();
-		Delay.msDelay(300);
+		Delay.msDelay(500);
 		Motor.A.stop();
 		Motor.C.stop();
-		
+		LCD.clear();
+		System.out.println("Go to Orange: ");
+		Button.waitForAnyPress();
 		//Tourner tout à gauche (jusqu'on retrouve l'onrange:
 		while(!cs.ORANGE.egale(cs.getColor())){
 			Motor.A.forward();
+			Motor.C.backward();
 		}
 		Motor.A.stop();
-		
+		Motor.C.stop();
+		LCD.clear();
+		System.out.println("Orange found!");
+		Button.waitForAnyPress();
 		//Choisir le chemin selon le code:
 		if(this.code.equals("")){
 			pilot.stop();
-			cs.setStop(true);
 			LCD.clear();
 			System.out.println("Aucun code");
 			Button.waitForAnyPress();
@@ -214,16 +224,36 @@ public class Mouvement {
 	
 	public void gotoChemin(int chemin){
 		int nbVertVu = 0;
+		LCD.clear();
+		System.out.print("Goto chemin nbChemin: "+chemin);;
+		Button.waitForAnyPress();
 		//Commencer à faire tourner le robot: 
-		while(nbVertVu < chemin){
-			while(!cs.VERT.equals(cs.getColor())){
-				Motor.C.forward();
-			}	
-			Motor.C.stop();
-			Button.waitForAnyPress();
-			nbVertVu ++;
+		while(nbVertVu != chemin){
+			Motor.A.backward();
+			Motor.C.forward();
+			if(cs.VERT.egale(cs.getColor())){
+				nbVertVu ++;
+				Motor.A.stop();
+				Motor.C.stop();
+				if(nbVertVu != chemin){
+					LCD.clear();
+					System.out.println("pas bon vert");
+					Button.waitForAnyPress();
+					//C'est pas le bon chemin, sortire de ce vert:
+					while(cs.VERT.egale(cs.getColor())){
+						Motor.A.backward();
+						Motor.C.forward(); 
+					}
+					Delay.msDelay(200);
+				}else{
+					LCD.clear();
+					System.out.println("bon vert");
+					Button.waitForAnyPress();
+				}
+			}
 		}
 		Motor.C.stop();
+		Motor.A.stop();
 		LCD.clear();
 		System.out.println("Chemin trouve");
 		Button.waitForAnyPress();
@@ -295,11 +325,23 @@ public class Mouvement {
 			cs.setStop(false);
 			pilot.forward();
 		}
+		Delay.msDelay(400);
 		pilot.stop();
 		LCD.clear();
 		LCD.drawString("1", 0, 0);
 		Button.waitForAnyPress();
-	/* On est sortie de la premiere tranche... 2eme tranche maintenant: */
+
+		/* On est sortie de la premiere tranche*/	
+		if(!this.couleur1.egale(cs.getColor()) && !this.couleur2.egale(cs.getColor())){
+			//Le code n'a qu'une seule partie, on est dans le vert, on continue.
+			pilot.stop();
+			LCD.clear();
+			System.out.println("le code \n"+this.code);
+			Button.waitForAnyPress();
+			pilot.forward();
+			return;
+		}
+	/*... 2eme tranche maintenant: */
 		if(this.couleur1.egale(cs.getColor())){
 			c2 = this.couleur1;
 			this.code += "1";

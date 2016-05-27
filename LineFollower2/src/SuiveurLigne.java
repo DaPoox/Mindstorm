@@ -67,13 +67,10 @@ public class SuiveurLigne {
 			i++;
 		}
 		if(cs.ORANGE.isCalibrated()){
-			tabOption[i] = "Blanc";
+			tabOption[i] = "Orange";
 			couleurs[i] = cs.ORANGE;
-
 			i++;
-		}
-		tabOption[i] = "Retour";
-		
+		}		
 	}
 	
 	public int menuCouleurLigne(){
